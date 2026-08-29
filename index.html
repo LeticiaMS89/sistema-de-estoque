@@ -1,0 +1,140 @@
+<!-- declara que este é um documento do tipo HTML5 moderno -->
+<!DOCTYPE html>
+<!-- Inicia o documento HTML e define o idioma principal como português do Brasil -->
+<html lang="pt-BR">
+
+<!-- O <head> é o cérebro da página; contém configurações invisíveis para o usuário -->
+
+<head>
+    <!-- Define a codificação de caracteres (UTF-8) para que acentos e cedilhas funcionem correramente -->
+    <meta charset="UTF-8">
+    <!-- Configura a página para se adaptar automaticamente ao tamanho da tela (celular, tablet ou PC) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o título da página que aparece na aba do navegador -->
+   <link rel="stylesheet" href="style.css">
+
+    <title>Sistema de Controle de Estoque</title>
+    <!-- Fecha o bloco de configurações -->
+</head>
+
+<!-- O <body> é o "corpo" da página; tudo que for colocado aqui será visível na tela -->
+
+<body>
+
+    <!-- <header> cria o cabeçalho principal da aplicação -->
+    <header>
+        <!-- <h1> é o título principal da aplicação -->
+        <h1>Painel de Controle - Estoque</h1>
+        <!-- Fecha o cabeçalho -->
+    </header>
+
+    <!-- 1. BLOCO DE DASHBOARD (Resumo) -->
+    <!-- <section> divide a página em áreas temáticas. O "id" ajuda a identificá-la no CSS depois -->
+    <section> 
+        <!-- <div> é uma caixa genérica usada para agrupar elementos (este é o 1 card) -->
+        <div class="card">
+            <!-- <h3> é um título no nível 3, usado aqui para o nome da métrica -->
+            <h3>Total em Estoque</h3>
+            <!-- <p> representa um parágrafo; aqui guarda o valor demonstrativo -->
+            <p>1.250 itens</p>
+            <!-- Fecha a caixa do 1 card -->
+        </div>
+
+        <!-- Cria uma segunda caixa (2 card) -->
+        <div class="card">
+            <!-- Título do 2 card -->
+            <h3>Entradas de Hoje</h3>
+            <!-- Valor do 2 card -->
+            <p>45 itens</p>
+            <!-- Fecha a caixa do 2 card -->
+        </div>
+        <!-- Fecha a seção de resumo-->
+    </section>
+
+    <!-- 2. BLOCO DE FORMJULÁRIO -->
+    <!-- Inicia a seção do formulário de movimentação -->
+    <section id="movimentacao">
+        <!-- Cria um formulário para registrar entradas e saídas de estoque -->
+        <form>
+            <!-- Campo de entrada de texto para o nome do produto -->
+            <label for="produto">Produto:</label>
+            <input type="text" id="produto" name="produto" required>
+
+            <!-- Campo de entrada numérica para a quantidade -->
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" name="quantidade" required>
+
+            <!-- Rótulo para o cazmpo de seleção -->
+            <label for="tipo">Tipo da Movimentação:</label>
+            <!-- <select> cria um menu suspenso (dropdown) com múltiplas escolhas -->
+            <select id="tipo">
+                <!-- <option> é a primeira opção que o usuário pode clicar no menu -->
+                <option value="entrada">Entrada</option>
+                <!-- Segunda opção do menu -->
+                <option value="saida">Saída</option>
+                <!-- Fecha o menu suspenso -->
+            </select>
+
+            <!-- Botão para enviar o formulário -->
+            <button type="submit">Registrar Movimentação</button>
+            <!-- Fecha a seção do formulário -->
+        </form>
+        <!-- Fecha a seção de movimentação -->
+    </section>
+
+    <!-- 3. BLOCO DA TABELA DE INVENTÁRIO -->
+    <!-- Inicia a seção que listará os produtos cadastrados -->
+    <section id="inventario">
+        <!-- Subtítulo da seção de inventário -->
+        <h2>Inventário Atual</h2>
+        <!-- <table> cria a estrutura principal de uma tabela no HTML -->
+        <table>
+            <!-- <thead> agrupa o cabeçalho da tabela (a linha com os nomes das colunas) -->
+            <thead>
+                <!-- <tr> (Table Row) cria uma linha horizontal na tabela -->
+                <tr>
+                    <!-- <th> (Table Header) cria uma célula de título em negrito e centralizada -->
+                    <th>Código (SKU)</th>
+                    <!-- Célula de título para a Descrição -->
+                    <th>Descrição</th>
+                    <!-- Célula de título para o Saldo -->
+                    <th>Saldo Atual</th>
+                    <!-- Fecha a linha do cabeçalho -->
+                </tr>
+                <!-- Fecha o agrupamento do cabeçalho -->
+            </thead>
+            <!-- <tbody> agrupa o corpo da tabela, onde as informações reais serão inseridas -->
+            <tbody>
+                <!-- Cria a primeira linha de dados na tabela -->
+                <tr>
+                    <!-- <td> (Table Data) cria uma célula de dado comum na linha -->
+                    <td>PROD-001</td>
+                    <!-- Segunda célula da linha (Descrição) -->
+                    <td>Caixa de Papelão P</td>
+                    <!-- Terceira célula da linha (Saldo) -->
+                    <td>500</td>
+                    <!-- Fecha a primeira linha de dados -->
+                </tr>
+                <!-- Cria uma segunda linha de dados na tabela -->
+                <tr>
+                    <!-- Dado da primeira coluna -->
+                    <td>PROD-002</td>
+                    <!-- Dado da segunda coluna -->
+                    <td>Fita Adesiva</td>
+                    <!-- Dado da terceira coluna -->
+                    <td>120</td>
+                    <!-- Fecha a segunda linha de dados -->
+                </tr>
+                <!-- Fecha o corpo da tabela -->
+            </tbody>
+            <!-- Fecha a estrutura da tabela -->
+        </table>
+        <!-- Fecha a seção de inventário -->
+    </section>
+
+    <script src="script.js"></script>
+    <!-- Fecha o corpo visual da página -->
+</body>
+<!-- Fecha o documento HTML por completo -->
+
+</html>
