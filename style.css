@@ -1,178 +1,442 @@
-h1 {
-    /* Escolhe uma fonte moderna e sem serifas, padrão em dashboards */
-    font-family: 'Segoe UI', Arial, sans-serif;
+/**
+ * ==========================================
+ * STYLESHEET - SISTEMA DE GESTÃO DE ESTOQUE
+ * ==========================================
+ * 
+ * Este arquivo CSS define:
+ * - Cores (paleta moderna)
+ * - Fontes e tipografia
+ * - Layout e espaçamento
+ * - Efeitos visuais (sombras, gradientes, animações)
+ * - Responsividade (mobile-first)
+ * 
+ * ESTRUTURA DO ARQUIVO:
+ * 1. Variáveis CSS (cores, tamanhos)
+ * 2. Reset (remove estilos padrão do navegador)
+ * 3. Cabeçalho
+ * 4. Cards (Dashboard)
+ * 5. Formulários
+ * 6. Botões
+ * 7. Tabelas
+ * 8. Busca
+ */
+
+/* ==========================================
+   1. VARIÁVEIS CSS (Paleta de Cores)
+   ========================================== 
+   
+   :root = seletor especial que representa a "raiz" do documento
+   Variáveis definidas aqui são acessíveis em TODA a página
+   Sintaxe: --nome-da-variavel: valor;
+   Uso: color: var(--primary);
+   
+   BENEFÍCIO: Mudar cor em 1 lugar afeta TODA a aplicação
+   Se precisar mudar azul para roxo: altera aqui e pronto!
+*/
+:root {
+    /* Cores de Fundo */
+    --bg-body: #f8fafc; /* Cinza muito claro (quase branco) para o fundo da página */
+    --bg-card: #ffffff; /* Branco puro para cards e formulários */
     
-    /* Aplica um tom azul escuro acinzentado, transmitindo seriedade */
-    color: #2c3e50;
+    /* Cores de Texto */
+    --text-strong: #0f172a; /* Cinza muito escuro (quase preto) para títulos */
+    --text-soft: #64748b; /* Cinza médio para texto secundário (subtítulos) */
     
-    /* Centraliza o título no topo da tela */
+    /* Cores Temáticas */
+    --primary: #4f46e5; /* Azul indigo - cor principal da aplicação */
+    --success: #10b981; /* Verde - sucesso, entradas, ações positivas */
+    --danger: #ef4444; /* Vermelho - alerta, saídas, baixo estoque */
+    
+    /* Bordas e Separadores */
+    --border-soft: #e2e8f0; /* Cinza clarinho para linhas de separação */
+}
+
+/* ==========================================
+   2. RESET GLOBAL (Remove estilos padrão)
+   ========================================== 
+   
+   * = seletor universal (TODOS os elementos)
+   Remove margin (espaço externo) e padding (espaço interno)
+   box-sizing: border-box; = border NÃO adiciona tamanho extras
+*/
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+/* ==========================================
+   3. ESTILOS DO <body> (Página inteira)
+   ========================================== */
+body {
+    /* Font-family: qual FONTE usar (ordem de prioridade) */
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    
+    /* Tenta usar 'Inter' (moderna)
+       Se não tiver: usa 'Segoe UI' (Windows)
+       Se não tiver: usa qualquer sans-serif */
+    
+    /* Cor de fundo: cinza suavíssimo */
+    background-color: var(--bg-body);
+    
+    /* Cor do texto padrão: cinza muito escuro */
+    color: var(--text-strong);
+}
+
+/* ==========================================
+   4. CABEÇALHO <header>
+   ========================================== 
+   
+   O cabeçalho é a barra superior com o título
+   Deve ser chamativo e profissional
+*/
+header {
+    /* Fundo escuro (cinza quase preto) */
+    background-color: var(--text-strong);
+    
+    /* Texto em branco para contraste */
+    color: white;
+    
+    /* Espaçamento interno vertical: 24px em cima e embaixo */
+    padding: 24px 0;
+    
+    /* Centraliza o texto horizontalmente */
     text-align: center;
     
-    /* Aumenta o tamanho da letra para dar destaque hierárquico */
-    font-size: 32px;
+    /* Sombra suave por baixo do cabeçalho */
+    /* 0 4px = sem deslocamento horizontal, 4px para baixo
+       6px = desfoque
+       -1px = spread (tamanho da sombra)
+       rgba(0,0,0,0.1) = cor preta com 10% de opacidade */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   5. <section> E TÍTULOS
+   ========================================== */
+
+/* Todos os <section> ter espaçamento consistente */
+section { 
+    /* Largura máxima: 1000px (em telas maiores, para não ficar muito largo) */
+    max-width: 1000px;
     
-    /* Cria um espaço invisível abaixo do título, empurrando os cards de métricas para baixo */
-    margin-bottom: 60px;
-}
-
-/* =========================================
-   1. CONFIGURAÇÕES GERAIS E RESET
-   ========================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* Garante que bordas não quebrem o tamanho dos elementos */
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6; /* Fundo cinza bem claro para contrastar com os blocos brancos */
-    color: #333;
-}
-
-h2 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 5px;
-    display: inline-block;
-}
-
-section {
-    max-width: 1000px; /* Limita a largura para não esticar em telas gigantes */
-    margin: 30px auto; /* Centraliza as seções na tela */
+    /* Centraliza a seção horizontalmente */
+    margin: 30px auto;
+    
+    /* Espaço lateral (em telas pequenas, 20px de cada lado) */
     padding: 0 20px;
 }
 
-/* =========================================
-   2. CABEÇALHO (HEADER)
-   ========================================= */
-header {
-    background-color: #2c3e50; /* Azul marinho corporativo */
-    color: #ffffff;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Títulos <h2> dentro das sections */
+h2 { 
+    color: var(--text-strong); /* Cinza escuro */
+    margin-bottom: 20px; /* Espaço embaixo do título */
+    font-size: 1.5rem; /* Tamanho (1.5x a fonte padrão) */
 }
 
-header h1 {
-    font-size: 28px;
-    font-weight: 600;
+/* ==========================================
+   6. CARDS DO DASHBOARD
+   ========================================== 
+   
+   Cards são "caixas" que mostram informações
+   - Total em Estoque (azul)
+   - Entradas de Hoje (verde)
+   - Saídas de Hoje (vermelho)
+*/
+
+/* Estilos para: Cards, Formulário e Seção de Inventário */
+.card, form, #inventario {
+    /* Fundo branco */
+    background-color: var(--bg-card);
+    
+    /* Espaçamento interno: 24px em todas as direções */
+    padding: 24px;
+    
+    /* Cantos arredondados (suavização visual) */
+    border-radius: 12px;
+    
+    /* Sombra elegante (efeito de "flutuação") */
+    /* 0 10px = sombra 10px para baixo
+       15px = desfoque grande (suave)
+       -3px = spread negativo (mais compacta)
+       rgba(0,0,0,0.05) = cor preta com apenas 5% de opacidade (bem suave) */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    
+    /* Borda super fina (1px) em cinza claro */
+    border: 1px solid var(--border-soft);
 }
 
-/* =========================================
-   3. DASHBOARD (CARDS DE RESUMO)
-   ========================================= */
-#resumo {
-    display: flex; /* Coloca os cards lado a lado */
-    gap: 20px; /* Espaço entre os cards */
-    justify-content: space-between;
+/* ===== RESUMO (Dashboard com 3 cards) ===== */
+
+/* Container do dashboard: cards lado a lado */
+#resumo { 
+    /* flexbox: layout flexível */
+    display: flex; 
+    /* Espaço entre os cards: 20px */
+    gap: 20px; 
 }
 
-.card {
-    background-color: #ffffff;
-    flex: 1; /* Faz os cards terem a mesma largura */
-    padding: 25px;
-    border-radius: 8px; /* Cantos arredondados */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombra suave de profundidade */
-    text-align: center;
-    border-left: 5px solid #3498db; /* Detalhe visual na lateral */
+/* Cada card individual */
+.card { 
+    /* Cada card toma 1/3 do espaço (flex: 1) */
+    flex: 1; 
+    
+    /* Centraliza texto horizontalmente */
+    text-align: center; 
+    
+    /* Borda colorida na base do card (4px de altura) */
+    /* A cor varia: azul para Total, verde para Entradas, vermelho para Saídas */
+    border-bottom: 4px solid var(--primary); 
 }
 
-.card h3 {
-    font-size: 16px;
-    color: #7f8c8d;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+/* Título do card (ex: "Total em Estoque") */
+.card h3 { 
+    /* Texto cinzento (secundário) */
+    color: var(--text-soft); 
+    
+    /* Tamanho pequeno */
+    font-size: 0.875rem; 
+    
+    /* MAIÚSCULAS: "TOTAL EM ESTOQUE" */
+    text-transform: uppercase; 
+    
+    /* Espaçamento entre letras (kerning) */
+    letter-spacing: 0.05em; 
+    
+    /* Espaço embaixo do título */
+    margin-bottom: 8px;
 }
 
-.card p {
-    font-size: 32px;
-    font-weight: bold;
-    color: #2c3e50;
+/* Número grande do card (ex: "150 itens") */
+.card p { 
+    /* Tamanho GRANDE: 2.5x a fonte padrão */
+    font-size: 2.5rem; 
+    
+    /* Negrito: números destacados */
+    font-weight: 700; 
+    
+    /* Cor: cinza escuro */
+    color: var(--text-strong); 
 }
 
-/* =========================================
-   4. FORMULÁRIO DE MOVIMENTAÇÃO
-   ========================================= */
-#movimentacao form {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column; /* Coloca os campos um embaixo do outro */
+/* ==========================================
+   7. FORMULÁRIO DE ENTRADA/SAÍDA
+   ========================================== */
+
+/* Container do formulário */
+#movimentacao form { 
+    /* Flexbox com itens em coluna (um abaixo do outro) */
+    display: flex; 
+    flex-direction: column; 
+    
+    /* Espaço entre campos: 15px */
+    gap: 15px; 
 }
 
-label {
-    font-weight: 600;
-    margin-bottom: 5px;
-    margin-top: 15px;
+/* Labels (descrição dos campos) */
+label { 
+    /* Tamanho pequeno */
+    font-size: 0.875rem; 
+    
+    /* Negrito: destaca a label */
+    font-weight: 600; 
+    
+    /* Cor: cinza escuro */
+    color: var(--text-strong); 
 }
 
+/* ==========================================
+   8. INPUTS E SELECTS (Campos de texto)
+   ========================================== */
+
+/* Todos os <input> e <select> */
 input, select {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%; /* Ocupa toda a largura disponível */
+    /* Espaçamento interno: 12px em cima/baixo, 16px esquerda/direita */
+    padding: 12px 16px;
+    
+    /* Borda fina em cinza claro */
+    border: 1px solid var(--border-soft);
+    
+    /* Cantos arredondados */
+    border-radius: 8px;
+    
+    /* Fundo com cor de fundo da página (sutileza) */
+    background-color: var(--bg-body);
+    
+    /* Texto em cinza escuro */
+    color: var(--text-strong);
+    
+    /* Tamanho da fonte: normal (1rem) */
+    font-size: 1rem;
+    
+    /* Transição suave quando interagir (0.2s) */
+    transition: all 0.2s;
 }
 
+/* Quando clica NO input ou select (estado :focus) */
 input:focus, select:focus {
-    border-color: #3498db; /* Muda a cor da borda ao clicar */
+    /* Borda muda para azul (primary) */
+    border-color: var(--primary);
+    
+    /* Efeito de anel em volta do input */
+    /* Box-shadow cria um "halo" de cor ao redor */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); /* Azul transparente */
+    
+    /* Remove o outline padrão do navegador */
     outline: none;
 }
 
+/* ==========================================
+   9. BOTÕES
+   ========================================== */
+
+/* Todos os <button> */
 button {
-    margin-top: 25px;
-    padding: 15px;
-    background-color: #27ae60; /* Verde indicando ação de sucesso/salvar */
+    /* Espaçamento interno: 14px */
+    padding: 14px;
+    
+    /* Fundo: azul (cor principal) */
+    background-color: var(--primary);
+    
+    /* Texto: branco */
     color: white;
+    
+    /* Sem borda */
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s; /* Animação suave na mudança de cor */
-}
-
-button:hover {
-    background-color: #219150; /* Escurece o botão ao passar o mouse */
-}
-
-/* =========================================
-   5. TABELA DE INVENTÁRIO
-   ========================================= */
-#inventario {
-    background-color: #ffffff;
-    padding: 25px;
+    
+    /* Cantos arredondados */
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse; /* Remove espaços duplos entre as bordas */
-    margin-top: 15px;
-}
-
-th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee; /* Linha divisória entre as linhas da tabela */
-}
-
-th {
-    background-color: #f8f9fa;
-    color: #2c3e50;
+    
+    /* Tamanho do texto: normal */
+    font-size: 1rem;
+    
+    /* Negrito: destaca o botão */
     font-weight: 600;
+    
+    /* Cursor muda para "mão" ao passar por cima */
+    cursor: pointer;
+    
+    /* Transições suaves para efeitos hover/active */
+    transition: transform 0.1s, background-color 0.2s;
 }
 
-/* Efeito Zebrado: muda a cor de fundo das linhas pares para facilitar a leitura */
-tbody tr:nth-child(even) {
-    background-color: #fcfcfc;
+/* Quando passa o mouse SOBRE o botão */
+button:hover { 
+    /* Fundo fica um azul mais escuro */
+    background-color: #4338ca; 
 }
 
-tbody tr:hover {
-    background-color: #f1f2f6; /* Destaca a linha inteira ao passar o mouse */
+/* Quando CLICA no botão (active) */
+button:active { 
+    /* Botão encolhe 2% (efeito de pressão) */
+    transform: scale(0.98); 
+}
+
+/* Botão de Exportar CSV tem cor diferente (verde) */
+#btnExportar { 
+    /* Verde em vez de azul */
+    background-color: var(--success); 
+}
+
+/* Hover do botão exportar (verde mais escuro) */
+#btnExportar:hover { 
+    background-color: #059669; 
+}
+
+/* ==========================================
+   10. TABELA
+   ========================================== 
+   
+   Estrutura:
+   - <table>: container
+   - <thead>: cabeçalho
+   - <tbody>: dados
+   - <tr>: linha
+   - <th>: header cell
+   - <td>: data cell
+*/
+
+/* Tabela toda */
+table { 
+    /* Ocupa 100% da largura disponível */
+    width: 100%; 
+    
+    /* Sem espaço entre células (bordas coladas) */
+    border-collapse: collapse; 
+    
+    /* Espaço acima da tabela */
+    margin-top: 10px; 
+}
+
+/* Todas as células de cabeçalho e dados */
+th, td { 
+    /* Espaçamento interno: 16px */
+    padding: 16px; 
+    
+    /* Alinha o texto à esquerda */
+    text-align: left; 
+    
+    /* Linha fina embaixo de cada célula */
+    border-bottom: 1px solid var(--border-soft); 
+}
+
+/* Cabeçalhos da tabela (<th>) */
+th { 
+    /* Fundo: cinza super claro (mesmo do body) */
+    background-color: var(--bg-body); 
+    
+    /* Texto: cinza médio */
+    color: var(--text-soft); 
+    
+    /* Negrito */
+    font-weight: 600; 
+    
+    /* MAIÚSCULAS: "CÓDIGO", "DESCRIÇÃO", "SALDO" */
+    text-transform: uppercase; 
+    
+    /* Tamanho pequeno */
+    font-size: 0.75rem; 
+    
+    /* Espaçamento entre letras */
+    letter-spacing: 0.05em;
+}
+
+/* Efeito quando passa mouse SOBRE uma linha da tabela */
+tbody tr:hover { 
+    /* Fundo fica um pouco mais claro (destaque) */
+    background-color: #f8fafc; 
+}
+
+/* ==========================================
+   11. CAMPO DE BUSCA (Search Input)
+   ========================================== 
+   
+   O campo de busca tem um ícone de lupa integrado
+   Usamos SVG em data URI (codificado em base64/URL)
+*/
+#busca {
+    /* 
+      SVG é uma imagem de lupa em formato de URL
+      "data:image/svg+xml" = é uma imagem SVG embutida
+      Cor da lupa: %2364748b = #64748b (cinza médio, variável --text-soft)
+    */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    
+    /* Imagem não se repete */
+    background-repeat: no-repeat;
+    
+    /* Posição: 14px da esquerda, centralizado verticalmente */
+    background-position: 14px center;
+    
+    /* 
+      Padding-left grande = empurra o texto para a direita
+      Assim o texto não fica por cima da lupa
+      42px é espaço suficiente para a lupa (18px) + margem
+    */
+    padding-left: 42px;
+}
+
+#busca:focus {
+    /* Muda a cor da lupa para o tom principal (azul) quando selecionado */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
