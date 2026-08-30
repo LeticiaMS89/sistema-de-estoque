@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎯 VISÃO FINAL - Estrutura Completa do Projeto
 
 ## 📁 Árvore de Arquivos (Final)
@@ -482,3 +483,4 @@ E agora é:
 ---
 
 **Boa sorte e bom aprendizado! 🚀**
+
