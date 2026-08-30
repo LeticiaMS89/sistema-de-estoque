@@ -1,341 +1,71 @@
-/**
- * ==========================================
- * ESTRUTURA HTML DA APLICAÇÃO
- * ==========================================
- * 
- * Este arquivo define a estrutura visual da página (esqueleto)
- * O CSS (style.css) define a aparência
- * O JavaScript (script.js) define o funcionamento
- * 
- * HIERARQUIA:
- * - Cabeçalho (header)
- * - Dashboard com 3 cards (resumo)
- * - Formulário de entrada/saída de produtos
- * - Tabela com listagem de produtos
- * - Busca e exportação
- */
-
-<!-- HTML5: Declara que este é um documento moderno -->
 <!DOCTYPE html>
-
-<!-- 
-  <html> é a tag raiz que encapsula TUDO o que vem depois
-  lang="pt-BR" diz ao navegador que o idioma é português brasileiro
-  Isso ajuda com acessibilidade, traduções automáticas, etc
--->
 <html lang="pt-BR">
-
-<!-- 
-  <head> é a "cabeça" da página
-  Não é visível para o usuário, mas contém configurações importantes
-  Exemplos: CSS, JavaScript, meta tags, título, ícone, etc
--->
 <head>
-    <!-- 
-      <meta charset="UTF-8"> define a codificação de caracteres
-      UTF-8 permite acentos (á, é, í, ó, ú), cedilha (ç), til (~) e outros
-      SEM isso: "José" apareceria como "Jos#"
-    -->
     <meta charset="UTF-8">
-    
-    <!-- 
-      <meta name="viewport"> torna a página responsiva (adaptável para celular)
-      width=device-width: usa a largura do dispositivo (não zoom padrão)
-      initial-scale=1.0: sem zoom automático
-      Resultado: página funciona bem em celular, tablet e PC
-    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Conecta o arquivo CSS que define cores, fontes, layout, etc -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Título que aparece na aba do navegador -->
     <title>Sistema de Controle de Estoque</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-<!-- 
-  <body> é o "corpo" da página
-  Tudo aqui é visível na tela do usuário
--->
 <body>
 
-    <!-- 
-      <header> é o cabeçalho/topo da página
-      Tipicamente contém logo, título, menu, etc
-      Neste caso: apenas título da aplicação
-    -->
     <header>
-        <!-- 
-          <h1> é o maior título da página
-          É importante para SEO e semântica
-          Deve aparecer apenas UMA VEZ por página
-        -->
         <h1>Painel de Controle - Estoque</h1>
     </header>
 
-    <!-- 
-      ==========================================
-      SEÇÃO 1: DASHBOARD (RESUMO ESTATÍSTICO)
-      ==========================================
-      
-      <section> divide a página em áreas temáticas principais
-      id="resumo" é um identificador único para esta seção
-      Usamos o id para estilizar no CSS e selecionar no JavaScript
-    -->
     <section id="resumo">
-        <!-- 
-          CARD 1: Total em Estoque (Azul - variável CSS --primary)
-          Cards são "caixas" com informação resumida
-          Cada card tem:
-          - Título (h3): "Total em Estoque"
-          - Conteúdo (p): número de itens "0 itens"
-          
-          O número "0 itens" será ATUALIZADO pelo JavaScript
-          quando há movimentações no estoque
-        -->
         <div class="card" style="border-bottom-color: var(--primary);">
             <h3>Total em Estoque</h3>
-            <!-- Este parágrafo será atualizado em tempo real pelo JavaScript -->
             <p>0 itens</p>
         </div>
-        
-        <!-- 
-          CARD 2: Entradas de Hoje (Verde - variável CSS --success)
-          Mostra quantos itens ENTRARAM nas últimas 24 horas
-        -->
         <div class="card" style="border-bottom-color: var(--success);">
             <h3>Entradas de Hoje</h3>
-            <!-- Atualizado pelo JavaScript quando há entradas -->
             <p>0 itens</p>
         </div>
-
-        <!-- 
-          CARD 3: Saídas de Hoje (Vermelho - variável CSS --danger)
-          Mostra quantos itens SAÍRAM nas últimas 24 horas
-        -->
         <div class="card" style="border-bottom-color: var(--danger);">
             <h3>Saídas de Hoje</h3>
-            <!-- Atualizado pelo JavaScript quando há saídas -->
             <p>0 itens</p>
         </div>
     </section>
-    
-    <!-- 
-      ==========================================
-      SEÇÃO 2: FORMULÁRIO DE MOVIMENTAÇÃO
-      ==========================================
-      
-      <form> agrupa campos para o usuário enviar dados
-      Quando o usuário clica "Registrar Movimentação":
-      1. O JavaScript "intercepta" o envio
-      2. Valida os dados
-      3. Atualiza o estoque
-      4. Salva no histórico
-      5. Redesenha a tabela
-      
-      É como um "formulário de pedido" da aplicação
-    -->
+
     <section id="movimentacao">
+        <h2>Registrar Movimentação</h2>
         <form>
-            <!-- 
-              CAMPO 1: Nome do Produto
-              <label> é a descrição (acessibilidade)
-              <input type="text"> é caixa de texto para digitar
-              id="produto" conecta a label ao input
-              required: usuário OBRIGATORIAMENTE deve preencher
-            -->
-            <label for="produto">Produto:</label>
-            <input type="text" id="produto" name="produto" required>
+            <label for="produto">Nome do Produto:</label>
+            <input type="text" id="produto" required>
 
-            <!-- 
-              CAMPO 2: Quantidade
-              <input type="number"> só aceita números
-              Não permite letras ou caracteres especiais
-              required: obrigatório preencher
-            -->
             <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" required>
+            <input type="number" id="quantidade" required>
 
-            <!-- 
-              CAMPO 3: Tipo de Movimentação (Entrada ou Saída)
-              <select> é um menu suspenso (dropdown)
-              Usuário clica e escolhe entre as <option>s
-            -->
             <label for="tipo">Tipo da Movimentação:</label>
             <select id="tipo">
-                <!-- Primeira opção: adicionar ao estoque -->
                 <option value="entrada">Entrada</option>
-                <!-- Segunda opção: remover do estoque -->
                 <option value="saida">Saída</option>
             </select>
 
-            <!-- 
-              BOTÃO DE ENVIO
-              <button type="submit"> dispara o evento "submit" do formulário
-              O JavaScript escuta este evento e processa os dados
-            -->
-            <button type="submit">Registrar Movimentação</button>
+            <button type="submit">Salvar Registro</button>
         </form>
     </section>
 
-    <!-- 
-      ==========================================
-      SEÇÃO 3: BUSCA E EXPORTAÇÃO
-      ==========================================
-      
-      Ferramentas adicionais para o usuário:
-      - Busca: filtrar produtos conforme digita
-      - Exportar: gerar relatório em CSV (Excel)
-    -->
     <section id="inventario">
-        <!-- Título da seção -->
         <h2>Inventário Atual</h2>
-        
-        <!-- 
-          DIV com ferramentas de busca e exportação
-          display: flex; gap: 15px; = alinha os items horizontalmente com espaço
-        -->
         <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-            <!-- 
-              CAMPO DE BUSCA
-              <input type="text"> para o usuário digitar termo
-              id="busca" é selecionado pelo JavaScript
-              placeholder mostra dica quando campo vazio
-              style="flex: 1;" faz o input ocupar o máximo de espaço disponível
-            -->
             <input type="text" id="busca" placeholder="Buscar produto ou SKU..." style="flex: 1; margin: 0;">
-            
-            <!-- 
-              BOTÃO EXPORTAR
-              Quando clicado, JavaScript gera arquivo CSV e faz download
-              class="btnExportar" é encontrado pelo JavaScript
-            -->
-            <button id="btnExportar" style="margin-top: 0;">Exportar CSV</button>
+            <button id="btnExportar" style="margin-top: 0;">📥 Exportar CSV</button>
         </div>
-
-        <!-- 
-          ==========================================
-          TABELA: Listagem de Produtos
-          ==========================================
-          
-          <table> é a estrutura principal
-          Contém:
-          - <thead>: cabeçalho (títulos das colunas)
-          - <tbody>: corpo (dados reais dos produtos)
-          
-          O <tbody> é VAZIO inicialmente
-          O JavaScript preenche com produtos quando a página carrega
-        -->
         <table>
-            <!-- 
-              <thead> = Table Head (cabeçalho da tabela)
-              Agrupa as linhas de título
-            -->
             <thead>
-                <!-- <tr> = Table Row (linha horizontal) -->
                 <tr>
-                    <!-- <th> = Table Header (célula de título em negrito) -->
-                    <!-- COLUNA 1: Código do Produto (SKU) -->
                     <th>Código (SKU)</th>
-                    
-                    <!-- COLUNA 2: Nome/Descrição do Produto -->
                     <th>Descrição</th>
-                    
-                    <!-- COLUNA 3: Quantidade em Estoque -->
                     <th>Saldo Atual</th>
                 </tr>
             </thead>
-            
-            <!-- 
-              <tbody> = Table Body (corpo da tabela)
-              Aqui colocamos os dados reais dos produtos
-              
-              Inicialmente tem 2 exemplos para referência:
-              - PROD-001: Caixa de Papelão P (500 unidades)
-              - PROD-002: Fita Adesiva (120 unidades)
-              
-              IMPORTANTE: JavaScript limpa e refaz este tbody
-              Estes dados de exemplo são SUBSTITUÍDOS quando há movimentações
-            -->
             <tbody>
-                <!-- 
-                  LINHA 1 DE EXEMPLO
-                  <td> = Table Data (célula de dado comum)
-                -->
-                <tr>
-                    <!-- SKU (código único do produto) -->
-                    <td>PROD-001</td>
-                    <!-- Nome/descrição -->
-                    <td>Caixa de Papelão P</td>
-                    <!-- Saldo (quantidade disponível) -->
-                    <td>500</td>
-                </tr>
-                
-                <!-- LINHA 2 DE EXEMPLO -->
-                <tr>
-                    <td>PROD-002</td>
-                    <td>Fita Adesiva</td>
-                    <td>120</td>
-                </tr>
+                <!-- O JavaScript injetará os produtos automaticamente aqui -->
             </tbody>
         </table>
     </section>
 
-    <!-- 
-      IMPORTAÇÃO DO ARQUIVO JAVASCRIPT
-      <script src="script.js"> carrega o arquivo script.js
-      Ele é colocado AQUI no final porque:
-      1. HTML é carregado/interpretado PRIMEIRO
-      2. Depois o JavaScript é executado
-      3. Assim o JS consegue "ver" todos os elementos HTML
-      
-      Se colocássemos no <head>, o JS rodaria ANTES do HTML estar pronto
-      E tentaria selecionar elementos que ainda não existem (erro!)
-    -->
     <script src="script.js"></script>
-
 </body>
-<!-- Fim do documento HTML -->
-</html>
-                    <th>Descrição</th>
-                    <!-- Célula de título para o Saldo -->
-                    <th>Saldo Atual</th>
-                    <!-- Fecha a linha do cabeçalho -->
-                </tr>
-                <!-- Fecha o agrupamento do cabeçalho -->
-            </thead>
-            <!-- <tbody> agrupa o corpo da tabela, onde as informações reais serão inseridas -->
-            <tbody>
-                <!-- Cria a primeira linha de dados na tabela -->
-                <tr>
-                    <!-- <td> (Table Data) cria uma célula de dado comum na linha -->
-                    <td>PROD-001</td>
-                    <!-- Segunda célula da linha (Descrição) -->
-                    <td>Caixa de Papelão P</td>
-                    <!-- Terceira célula da linha (Saldo) -->
-                    <td>500</td>
-                    <!-- Fecha a primeira linha de dados -->
-                </tr>
-                <!-- Cria uma segunda linha de dados na tabela -->
-                <tr>
-                    <!-- Dado da primeira coluna -->
-                    <td>PROD-002</td>
-                    <!-- Dado da segunda coluna -->
-                    <td>Fita Adesiva</td>
-                    <!-- Dado da terceira coluna -->
-                    <td>120</td>
-                    <!-- Fecha a segunda linha de dados -->
-                </tr>
-                <!-- Fecha o corpo da tabela -->
-            </tbody>
-            <!-- Fecha a estrutura da tabela -->
-        </table>
-        <!-- Fecha a seção de inventário -->
-    </section>
-
-    <script src="script.js"></script>
-    <!-- Fecha o corpo visual da página -->
-</body>
-<!-- Fecha o documento HTML por completo -->
-
 </html>
