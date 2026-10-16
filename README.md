@@ -1,486 +1,113 @@
-<<<<<<< HEAD
-# 🎯 VISÃO FINAL - Estrutura Completa do Projeto
+# 📦 Sistema de Gestão de Estoque
 
-## 📁 Árvore de Arquivos (Final)
+![Versão](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Licença](https://img.shields.io/badge/license-MIT-green.svg)
+![Tecnologias](https://img.shields.io/badge/tech-HTML5%20%7C%20CSS3%20%7C%20JavaScript-orange.svg)
 
-```
-Gestão de Estoque/
+Aplicação web *Vanilla Fullstack/Front-end* para controle e gestão de estoque em tempo real. Desenvolvida focado em **Clean Code**, **Performance**, **Acessibilidade (A11y)** e **Segurança contra vulnerabilidades comuns (XSS e CSV Injection)**.
+
+---
+
+## 📋 Sumário
+
+- [Demonstração e Recursos](#-demonstração-e-recursos)
+- [Arquitetura de Segurança e Performance](#-arquitetura-de-segurança-e-performance)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Como Executar](#-como-executar)
+- [Especificações Técnicas](#-especificações-técnicas)
+  - [HTML5 Semântico](#html5-semântico)
+  - [CSS3 Moderno](#css3-moderno)
+  - [JavaScript (ES6+)](#javascript-es6)
+- [Próximas Evoluções](#-próximas-evoluções)
+- [Licença](#-licença)
+
+---
+
+## 🚀 Demonstração e Recursos
+
+- 📊 **Dashboard Dinâmico**: Indicadores em tempo real para Total em Estoque, Entradas do Dia e Saídas do Dia.
+- 📥 **Registro de Movimentação**: Entrada e saída de produtos com atualização automática de saldo e geração de histórico.
+- 🏷️ **Geração de SKU Único**: Atribuição automática de código identificador utilizando a API criptográfica do navegador (`crypto.randomUUID()`).
+- ⚠️ **Alertas de Estoque Crítico**: Sinalização visual automática para itens com saldo inferior a 20 unidades.
+- 🔍 **Busca em Tempo Real (Debounced)**: Filtragem por nome ou SKU otimizada para alto desempenho.
+- 📄 **Exportação CSV Profissional**: Download do histórico com codificação UTF-8 BOM (`\uFEFF`), garantindo leitura correta de acentuação no Microsoft Excel e Google Sheets.
+- 💾 **Persistência Local**: Armazenamento offline dos dados via `localStorage`.
+
+---
+
+## 🛡️ Arquitetura de Segurança e Performance
+
+| Desafio de Engenharia | Solução Aplicada | Benefício |
+| :--- | :--- | :--- |
+| **Vulnerabilidade XSS (Cross-Site Scripting)** | Função de sanitização `escaparHTML()` aplicada a todos os inputs do usuário antes do inserto no DOM. | Impede a execução de scripts maliciosos na página. |
+| **Quebra de Sintaxe e Injeção em CSV** | Sanitização de aspas duplas (`"`) e prefixagem com Byte Order Mark UTF-8 (`\uFEFF`). | Compatibilidade perfeita com o Excel e proteção contra execução de fórmulas em planilhas. |
+| **Gargalos de Renderização (Reflow/Repaint)** | Inserção de linhas via `DocumentFragment` no DOM. | Agrupa alterações na memória antes de atualizar a tela em um único ciclo. |
+| **Disparos Excessivos na Busca** | Algoritmo de *Debouncing* com intervalo de 250ms. | Reduz processamento desnecessário durante a digitação rápida do usuário. |
+| **Colisão de SKUs (IDs Duplicados)** | API `crypto.randomUUID()` com *fallback* numérico. | Garante a unicidade de identificação de novos produtos. |
+
+---
+
+## 📁 Estrutura do Projeto
+
+gestao-de-estoque/
 │
-├── 🎨 APLICAÇÃO (Código Funcional)
-│   ├── index.html .................... HTML + comentários
-│   ├── script.js ..................... JavaScript + comentários
-│   └── style.css ..................... CSS + comentários
-│
-└── 📚 DOCUMENTAÇÃO (Aprendizado)
-    ├── RESUMO.md ..................... ← LEIA PRIMEIRO! (Este arquivo)
-    ├── INDICE.md ..................... Mapa de navegação
-    ├── GUIA_RAPIDO.md ................ Referência rápida (5 min)
-    ├── DOCUMENTACAO.md ............... Técnica completa (30 min)
-    ├── EXEMPLOS_PRATICOS.md .......... 9 cenários reais (20 min)
-    └── Este README ................... Você está aqui!
-
-Total de Arquivos: 9
-Total de Linhas de Documentação: ~23,000
-Taxa Comentário:Código: 1:3 (30% comentários)
-```
+├── index.html       # Markup semântico, acessível e estruturado
+├── style.css        # Estilização modular com variáveis CSS e responsividade
+├── script.js        # Regras de negócio, sanitização, manipulação do DOM e storage
+└── README.md        # Documentação completa do repositório
 
 ---
 
-## 🌳 Fluxo de Uso Recomendado
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    VOCÊ ABRE A PÁGINA                        │
-│                  (No navegador, F12 para ver)                │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-          ┌──────────┴──────────┐
-          │                     │
-          ▼                     ▼
-    ┌──────────────┐     ┌─────────────────┐
-    │ NOVO AQUI?   │     │ JÁ USA O CÓDIGO? │
-    │              │     │                 │
-    │ 1. Este      │     │ 1. DOCUMENTACAO │
-    │    RESUMO    │     │    .md (técnico)│
-    │              │     │                 │
-    │ 2. GUIA_     │     │ 2. EXEMPLOS_    │
-    │    RAPIDO    │     │    PRATICOS.md  │
-    │              │     │                 │
-    │ 3. Abra      │     │ 3. Modifique    │
-    │    index.    │     │    code.js      │
-    │    html      │     │                 │
-    │              │     │ 4. Deploy!      │
-    └──────────────┘     └─────────────────┘
-          │                     │
-          └──────────┬──────────┘
-                     │
-                     ▼
-    ┌──────────────────────────────────┐
-    │    CÓDIGO TEM COMENTÁRIOS!       │
-    │ (Leia direto no arquivo .js)     │
-    │                                  │
-    │ Cada função tem explicação       │
-    │ Cada seção tem objetivo claro    │
-    │ Exemplos práticos incluídos      │
-    └──────────────────────────────────┘
-```
-
----
-
-## 📖 Leitura por Tipo de Usuário
-
-### 👨‍🎓 **Estudante / Iniciante**
-```
-Meta: Aprender como funciona
-
-TEMPO: ~1 hora
-
-CAMINHO:
-1. Este RESUMO.md ..................... 5 min
-2. GUIA_RAPIDO.md ..................... 10 min
-3. Abra index.html no navegador ....... 5 min
-4. Teste com dados reais .............. 15 min
-5. Leia script.js + comentários ....... 20 min
-6. Abra DevTools (F12) e explore ..... 10 min
-
-RESULTADO: Entende o projeto completo!
-```
-
-### 💼 **Desenvolvedor / Profissional**
-```
-Meta: Entender e modificar código
-
-TEMPO: ~2 horas
-
-CAMINHO:
-1. Este RESUMO.md ..................... 5 min
-2. DOCUMENTACAO.md (técnico) .......... 30 min
-3. EXEMPLOS_PRATICOS.md (cenários) ... 20 min
-4. Explore script.js .................. 30 min
-5. Debug com DevTools (F12) ........... 20 min
-6. Planeje modificações .............. 15 min
-
-RESULTADO: Pronto para contribuir!
-```
-
-### 👨‍🏫 **Professor / Educador**
-```
-Meta: Ensinar com base neste projeto
-
-TEMPO: ~3 horas
-
-CAMINHO:
-1. DOCUMENTACAO.md (completo) ......... 60 min
-2. EXEMPLOS_PRATICOS.md (todos os 9) . 30 min
-3. Prepare aulas ..................... 30 min
-4. Teste com alunos .................. 30 min
-5. Prepare exercícios ................ 30 min
-
-RESULTADO: Material de aula pronto!
-```
-
----
-
-## 🎯 Matriz de Conteúdo
-
-### O QUE CADA ARQUIVO ENSINA
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    index.html                                │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • Estrutura HTML semântica         Comentários no arquivo  │
-│ • Meta tags                        + GUIA_RAPIDO.md       │
-│ • Formulários                      
-│ • Tabelas                          
-│ • Acessibilidade                   
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│                    script.js                                 │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • LocalStorage API                 Comentários no arquivo  │
-│ • DOM manipulation                 + EXEMPLOS_PRATICOS.md │
-│ • Array methods                    + DOCUMENTACAO.md      │
-│ • Event listeners                  
-│ • Validações                       
-│ • Download de arquivos             
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│                    style.css                                 │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • Variáveis CSS                    Comentários no arquivo  │
-│ • Flexbox                          + GUIA_RAPIDO.md       │
-│ • Estados (hover, focus, active)   
-│ • Box shadow e efeitos             
-│ • Responsive design                
-│ • Background SVG                   
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│              DOCUMENTACAO.md                                 │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • Fluxo completo da aplicação      Sequencial (20+ pag)   │
-│ • Todas as funções explicadas      
-│ • Estrutura de dados               
-│ • Como usar (4 tutoriais)          
-│ • Melhorias futuras                
-│ • FAQ e debug                      
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│              GUIA_RAPIDO.md                                  │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • Resumo rápido (cada arquivo)     Rápido (10+ pag)       │
-│ • Conceitos principais             Por tópico              │
-│ • Tabelas de referência            Busca por índice        │
-│ • Como estudar                     
-│ • Próximos passos                  
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│            EXEMPLOS_PRATICOS.md                              │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • 9 cenários reais do uso          Cenários (15+ pag)     │
-│ • Como dados fluem                 Sequencial              │
-│ • Validações em ação               Específico (buscar)     │
-│ • Fluxo de debug                   
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│              INDICE.md                                       │
-│                                                              │
-│ APRENDE:                           LEIA:                    │
-│ • Como navegar tudo                Quando busca algo      │
-│ • Mapa visual                      
-│ • Checklist de aprendizado         
-│ • Estatísticas finais              
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🎓 Nível de Dificuldade por Arquivo
-
-```
-script.js
-█████████████████ COMPLEXO (Lógica)
-  ├─ Conceitos: Arrays, Events, API
-  ├─ Funções: 3 principais
-  └─ Padrão: Callbacks e arrays
-
-style.css
-████████░░░░░░░░ MÉDIO (Visual)
-  ├─ Conceitos: Flexbox, variáveis
-  ├─ Conhecimento: CSS moderno
-  └─ Padrão: Mobile-first
-
-index.html
-████░░░░░░░░░░░░ FÁCIL (Estrutura)
-  ├─ Conceitos: Semântica, acessibilidade
-  ├─ Conhecimento: HTML básico
-  └─ Padrão: BEM/SMACSS
-
-DOCUMENTAÇÃO
-██░░░░░░░░░░░░░░ FÁCIL (Leitura)
-  ├─ Conceitos: Tudo explicado
-  ├─ Conhecimento: Nenhum prévio
-  └─ Padrão: Didático
-```
-
----
-
-## 📚 Gráfico de Aprendizado Esperado
-
-```
-Conhecimento
-    ▲
-    │                                    ╱─────► 90% (Avançado)
-    │                          ╱─────────╱
-    │                  ╱───────╱       (Modifique código)
-    │          ╱─────╱
-    │  ╱─────╱         (Entenda fluxo completo)
-    │╱
-    └─────────────────────────────────────────────► Tempo
-    0 min   30 min   1h      2h      3h      4h
-
-    │ Leitura rápida  │ Estudo médio │ Aprendizado profundo │
-    │ (RESUMO/GUIA)   │ (EXEMPLOS)   │ (DOCUMENTAÇÃO/CÓDIGO)│
-```
-
----
-
-## 🔍 Índice de Busca (Quick Find)
-
-### **"Como funciona X?"**
-
-| Pergunta | Arquivo | Linha/Seção |
-|----------|---------|------------|
-| Formulário | script.js | Linha 170+ |
-| Busca | script.js | Linha 232+ |
-| Exportação | script.js | Linha 250+ |
-| Dashboard | script.js | Linha 37+ |
-| Tabela | script.js | Linha 72+ |
-| LocalStorage | script.js | Linha 5+ |
-| Cores | style.css | Linha 1+ |
-| Botões | style.css | Linha 180+ |
-| Estrutura | index.html | Linha 1+ |
-
----
-
-## ✅ Checklist de Confiança
-
-Após estudar este projeto, você será capaz de:
-
-### Iniciante
-- [ ] Entender fluxo básico HTML→CSS→JS
-- [ ] Ler e entender o código
-- [ ] Modificar cores e textos
-- [ ] Usar DevTools básico (F12)
-- [ ] Encontrar bugs simples
-
-### Intermediário
-- [ ] Adicionar novas funcionalidades
-- [ ] Entender eventos e listeners
-- [ ] Manipular DOM eficientemente
-- [ ] Usar localStorage
-- [ ] Debug com breakpoints
-
-### Avançado
-- [ ] Refatorar código
-- [ ] Otimizar performance
-- [ ] Integrar com backend
-- [ ] Deploy em produção
-- [ ] Ensinar a outros
-
----
-
-## 🚀 Próximas Ações
-
-### Imediatamente (Hoje)
-```
-1. Abra este RESUMO.md ............... Você está aqui! ✓
-2. Abra GUIA_RAPIDO.md ............... Próximo passo
-3. Teste a aplicação ................ No navegador
-4. Leia comentários do código ....... Entenda a lógica
-```
-
-### Curto Prazo (Semana)
-```
-1. Estude DOCUMENTACAO.md
-2. Leia todos os EXEMPLOS_PRATICOS.md
-3. Explore código com DevTools
-4. Faça pequenas modificações
-```
-
-### Médio Prazo (Mês)
-```
-1. Implemente feature nova
-2. Integre com API simples
-3. Deploy online
-4. Compartilhe com amigos
-```
-
-### Longo Prazo (Semestre)
-```
-1. Backend com Node.js ou Python
-2. Banco de dados real
-3. Autenticação
-4. Versão mobile
-```
-
----
-
-## 💡 Dicas Ouro
-
-### 🌟 Dica 1: Comece com GUIA_RAPIDO.md
-```
-"Não quero ler 100 páginas!"
-→ GUIA_RAPIDO.md tem resumo em 10 páginas
-→ Leia em 10 minutos
-→ Tenha visão geral
-```
-
-### 🌟 Dica 2: Estude com o Código Aberto
-```
-"Como entendo melhor?"
-→ Abra index.html no navegador
-→ Abra script.js no VS Code
-→ Leia comentários lado a lado
-→ F12 para explorar dados
-```
-
-### 🌟 Dica 3: Use EXEMPLOS_PRATICOS.md como Roadmap
-```
-"Quero aprender na prática!"
-→ Leia cenário 1 (primeira vez)
-→ Faça exatamente o mesmo
-→ Compare resultado com esperado
-→ Próximo cenário
-```
-
-### 🌟 Dica 4: Breakpoints no Debug
-```
-"Quero ver código executando!"
-→ F12 → Sources → script.js
-→ Clique número da linha (breakpoint)
-→ Registre movimentação
-→ Código pausa e mostra variáveis!
-```
-
-### 🌟 Dica 5: Modifique Sem Medo
-```
-"Tenho medo de quebrar!"
-→ Ctrl+Z desfaz tudo
-→ localStorage.clear() limpa dados
-→ Recarregar página reseta
-→ Explore, erre, aprenda!
-```
-
----
-
-## 📊 Estatísticas Finais
-
-```
-CÓDIGO:
-├─ Total de Linhas: 780
-├─ Comentários: 2,100+
-├─ Taxa: 1 linha código = 2.7 comentários
-└─ Qualidade: ⭐⭐⭐⭐⭐
-
-DOCUMENTAÇÃO:
-├─ Total de Páginas: 65+
-├─ Total de Palavras: 50,000+
-├─ Arquivos .md: 5
-└─ Qualidade: ⭐⭐⭐⭐⭐
-
-COBERTURA:
-├─ Conceitos JS: 30+ (todos!)
-├─ Conceitos HTML: 15+ (todos!)
-├─ Conceitos CSS: 20+ (todos!)
-└─ Exemplos práticos: 9 cenários
-
-TEMPO REQUERIDO:
-├─ Ler tudo: 2-3 horas
-├─ Entender tudo: 1-2 semanas
-├─ Dominar tudo: 1-2 meses
-└─ Ensinar a outros: Qualquer hora!
-```
-
----
-
-## 🎯 Resultado Final
-
-Você agora tem:
-
-✅ **CÓDIGO PROFISSIONAL**
-- 100% comentado
-- Bem estruturado
-- Fácil de manter
-
-✅ **DOCUMENTAÇÃO COMPLETA**
-- 65+ páginas
-- 50,000+ palavras
-- 9 exemplos práticos
-
-✅ **MATERIAL EDUCATIVO**
-- Para iniciantes
-- Para profissionais
-- Para educadores
-
-✅ **PROJETO PRONTO**
-- Funcional e testado
-- Melhorias documentadas
-- Escalável e extensível
-
----
-
-## 🎉 Conclusão
-
-Este projeto começou como:
-```
-"Um sistema de gestão de estoque"
-```
-
-E agora é:
-```
-"Um sistema de gestão de estoque profissional,
- completamente documentado, com 65+ páginas
- de documentação e 23,000 linhas de conteúdo
- educativo!"
-```
-
----
-
-## 🙏 Obrigado por Estudar Este Projeto!
-
-**Próximo passo?**
-
-👉 **Abra GUIA_RAPIDO.md e comece!**
-
----
-
-```
-╔═════════════════════════════════════════════════════════════╗
-║                                                             ║
-║   PROJETO: Sistema de Gestão de Estoque                    ║
-║   STATUS: ✅ 100% Comentado e Documentado                  ║
-║   QUALIDADE: ⭐⭐⭐⭐⭐ Profissional                         ║
-║   PRONTO PARA: Estudar | Usar | Modificar | Ensinar        ║
-║                                                             ║
-║        Criado com ❤️ em 30 de agosto de 2026              ║
-║                                                             ║
-╚═════════════════════════════════════════════════════════════╝
-```
-
----
-
-**Boa sorte e bom aprendizado! 🚀**
+## ⚙️ Como Executar
 
+Por ser uma aplicação baseada em tecnologia web nativa (*Vanilla*), não é necessário instalar dependências via `npm` ou `yarn`.
+
+1. **Clone o repositório**:
+   ```bash
+   git clone [https://github.com/seu-usuario/gestao-de-estoque.git](https://github.com/seu-usuario/gestao-de-estoque.git)
+   ```
+
+1. **Navegue até a pasta do projeto**:
+   ```text
+   cd gestao-de-estoque
+   ```
+2.**Abra o arquivo index.html**:
+
+Dê um duplo clique no arquivo index.html para abri-lo no seu navegador padrão; OU
+
+Utilize a extensão Live Server no VS Code para servir a aplicação localmente.
+
+## 🛠️ Especificações Técnicas
+HTML5 Semântico
+Estruturação focada em acessibilidade com o uso das tags <header>, <main>, <section>, <table>, <form>.
+
+Inclusão de rótulos de acessibilidade (aria-label) nos campos de entrada e botões de ação.
+
+Inclusão de restrições nativas como required e min="1" no formulário.
+
+CSS3 Moderno
+Design System leve: Utilização de variáveis CSS (:root) para gerenciamento de cores, raios de borda e velocidades de transição.
+
+Layout Responsivo: Estruturado com Flexbox e consultas de mídia (@mediaqueries) adaptadas para telas móveis (Smartphones e Tablets).
+
+Acessibilidade Visual: Utilização de seletores :focus-visible para suporte à navegação por teclado (Tab).
+
+JavaScript (ES6+)
+Manipulação do DOM resiliente: Seleção de elementos feita prioritariamente via IDs únicos (document.getElementById).
+
+Padrão de Estado: Leitura e gravação resilientes no localStorage encapsuladas em blocos de tratamento de exceção try/catch.
+
+Clean Code: Funções com responsabilidade única e comentários descritivos em todo o fluxo da lógica.
+
+## 🔮 Próximas Evoluções
+[ ] Implementação de edição e exclusão manual de produtos cadastrados.
+
+[ ] Integração com banco de dados remoto (ex: Node.js + PostgreSQL / Firebase).
+
+[ ] Paginação na tabela de inventário para suporte a grandes volumes de dados (10.000+ itens).
+
+[ ] Gráficos visuais de movimentação semanal/mensal utilizando a biblioteca Chart.js.
+
+## 📄 Licença
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+   
