@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Adicionada uma meta tag description (Boa prática para SEO) -->
+    <meta name="description" content="Sistema profissional para controle e gestão de estoque.">
     <title>Sistema de Controle de Estoque</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,60 +14,97 @@
         <h1>Painel de Controle - Estoque</h1>
     </header>
 
-    <section id="resumo">
-        <div class="card" style="border-bottom-color: var(--primary);">
-            <h3>Total em Estoque</h3>
-            <p>0 itens</p>
-        </div>
-        <div class="card" style="border-bottom-color: var(--success);">
-            <h3>Entradas de Hoje</h3>
-            <p>0 itens</p>
-        </div>
-        <div class="card" style="border-bottom-color: var(--danger);">
-            <h3>Saídas de Hoje</h3>
-            <p>0 itens</p>
-        </div>
-    </section>
+    <!-- Envolvendo o conteúdo principal na tag <main>. 
+         Isso é vital para a semântica da web e acessibilidade (leitores de tela). -->
+    <main>
+        
+        <section id="resumo">
+            <!-- 
+                MELHORIA: Estilos inline (style="...") foram removidos. 
+                Crie as classes '.card-primary', '.card-success' e '.card-danger' no seu CSS.
+                Manter a separação de responsabilidades (HTML para estrutura, CSS para visual) é essencial.
+            -->
+            <div class="card card-primary">
+                <h3>Total em Estoque</h3>
+                <!-- MELHORIA: Adicionado ID no valor numérico. Isso facilita a atualização via JavaScript -->
+                <p><span id="total-itens">0</span> itens</p>
+            </div>
+            
+            <div class="card card-success">
+                <h3>Entradas de Hoje</h3>
+                <p><span id="total-entradas">0</span> itens</p>
+            </div>
+            
+            <div class="card card-danger">
+                <h3>Saídas de Hoje</h3>
+                <p><span id="total-saidas">0</span> itens</p>
+            </div>
+        </section>
 
-    <section id="movimentacao">
-        <h2>Registrar Movimentação</h2>
-        <form>
-            <label for="produto">Nome do Produto:</label>
-            <input type="text" id="produto" required>
+        <section id="movimentacao">
+            <h2>Registrar Movimentação</h2>
+            <!-- MELHORIA: Adicionado um ID ao formulário para capturar o evento de "submit" mais facilmente no JS -->
+            <form id="form-movimentacao">
+                
+                <label for="produto">Nome do Produto:</label>
+                <!-- MELHORIA: Adicionado o atributo "name", útil para serialização dos dados (FormData) no JavaScript -->
+                <input type="text" id="produto" name="produto" required placeholder="Ex: Teclado Mecânico">
 
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" required>
+                <label for="quantidade">Quantidade:</label>
+                <!-- MELHORIA: Adicionado 'min="1"'. Impede que o usuário digite zero ou números negativos acidentalmente -->
+                <input type="number" id="quantidade" name="quantidade" required min="1" placeholder="Ex: 10">
 
-            <label for="tipo">Tipo da Movimentação:</label>
-            <select id="tipo">
-                <option value="entrada">Entrada</option>
-                <option value="saida">Saída</option>
-            </select>
+                <label for="tipo">Tipo da Movimentação:</label>
+                <select id="tipo" name="tipo" required>
+                    <!-- MELHORIA: Adicionado um 'value' vazio como default para forçar o usuário a escolher um tipo conscientemente -->
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="entrada">Entrada</option>
+                    <option value="saida">Saída</option>
+                </select>
 
-            <button type="submit">Salvar Registro</button>
-        </form>
-    </section>
+                <!-- MELHORIA: Adicionado o atributo aria-label para melhorar acessibilidade -->
+                <button type="submit" aria-label="Salvar registro de movimentação">Salvar Registro</button>
+            </form>
+        </section>
 
-    <section id="inventario">
-        <h2>Inventário Atual</h2>
-        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-            <input type="text" id="busca" placeholder="Buscar produto ou SKU..." style="flex: 1; margin: 0;">
-            <button id="btnExportar" style="margin-top: 0;">📥 Exportar CSV</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Código (SKU)</th>
-                    <th>Descrição</th>
-                    <th>Saldo Atual</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- O JavaScript injetará os produtos automaticamente aqui -->
-            </tbody>
-        </table>
-    </section>
+        <section id="inventario">
+            <h2>Inventário Atual</h2>
+            
+            <!-- 
+                MELHORIA: Remoção do CSS inline. 
+                Crie uma classe '.acoes-inventario' no seu CSS com { display: flex; gap: 15px; margin-bottom: 20px; }
+            -->
+            <div class="acoes-inventario">
+                <!-- Adicionado 'name' e melhorado o uso sem a necessidade de margens inline -->
+                <input type="text" id="busca" name="busca" placeholder="Buscar produto ou SKU..." aria-label="Campo de busca de produtos">
+                
+                <button id="btnExportar" type="button" title="Exportar tabela para CSV">
+                    📥 Exportar CSV
+                </button>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código (SKU)</th>
+                        <th>Descrição</th>
+                        <th>Saldo Atual</th>
+                    </tr>
+                </thead>
+                <!-- 
+                    MELHORIA: Adicionado o id="tabela-inventario-body".
+                    Quando você for injetar os dados com JS, fará document.getElementById('tabela-inventario-body').innerHTML = ...
+                    Isso garante que você não sobrescreva o cabeçalho <thead> sem querer.
+                -->
+                <tbody id="tabela-inventario-body">
+                    <!-- O JavaScript injetará os produtos automaticamente aqui -->
+                </tbody>
+            </table>
+        </section>
 
+    </main>
+
+    <!-- O script no final do body está correto, garante que o HTML carregue antes de manipular a DOM -->
     <script src="script.js"></script>
 </body>
 </html>
