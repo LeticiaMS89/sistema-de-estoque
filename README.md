@@ -64,7 +64,7 @@ Por ser uma aplicação baseada em tecnologia web nativa (*Vanilla*), não é ne
 
 1. **Clone o repositório**:
    ```bash
-   git clone [https://github.com/seu-usuario/gestao-de-estoque.git](https://github.com/seu-usuario/gestao-de-estoque.git)
+   git clone (https://github.com/LeticiaMS89/sistema-de-estoque.git)
    ```
 
 1. **Navegue até a pasta do projeto**:
