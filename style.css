@@ -2,63 +2,47 @@
  * ==========================================
  * STYLESHEET - SISTEMA DE GESTÃO DE ESTOQUE
  * ==========================================
- * 
- * Este arquivo CSS define:
- * - Cores (paleta moderna)
- * - Fontes e tipografia
- * - Layout e espaçamento
- * - Efeitos visuais (sombras, gradientes, animações)
- * - Responsividade (mobile-first)
- * 
  * ESTRUTURA DO ARQUIVO:
- * 1. Variáveis CSS (cores, tamanhos)
+ * 1. Variáveis CSS (cores, tamanhos, animações)
  * 2. Reset (remove estilos padrão do navegador)
- * 3. Cabeçalho
+ * 3. Cabeçalho & Layout Base
  * 4. Cards (Dashboard)
- * 5. Formulários
+ * 5. Formulários & Inputs
  * 6. Botões
  * 7. Tabelas
  * 8. Busca
+ * 9. Responsividade (Mobile) -> MELHORIA ADICIONADA
  */
 
 /* ==========================================
-   1. VARIÁVEIS CSS (Paleta de Cores)
-   ========================================== 
-   
-   :root = seletor especial que representa a "raiz" do documento
-   Variáveis definidas aqui são acessíveis em TODA a página
-   Sintaxe: --nome-da-variavel: valor;
-   Uso: color: var(--primary);
-   
-   BENEFÍCIO: Mudar cor em 1 lugar afeta TODA a aplicação
-   Se precisar mudar azul para roxo: altera aqui e pronto!
-*/
+   1. VARIÁVEIS CSS (Paleta e Layout)
+   ========================================== */
 :root {
     /* Cores de Fundo */
-    --bg-body: #f8fafc; /* Cinza muito claro (quase branco) para o fundo da página */
-    --bg-card: #ffffff; /* Branco puro para cards e formulários */
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
     
     /* Cores de Texto */
-    --text-strong: #0f172a; /* Cinza muito escuro (quase preto) para títulos */
-    --text-soft: #64748b; /* Cinza médio para texto secundário (subtítulos) */
+    --text-strong: #0f172a;
+    --text-soft: #64748b;
     
     /* Cores Temáticas */
-    --primary: #4f46e5; /* Azul indigo - cor principal da aplicação */
-    --success: #10b981; /* Verde - sucesso, entradas, ações positivas */
-    --danger: #ef4444; /* Vermelho - alerta, saídas, baixo estoque */
+    --primary: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
     
     /* Bordas e Separadores */
-    --border-soft: #e2e8f0; /* Cinza clarinho para linhas de separação */
+    --border-soft: #e2e8f0;
+
+    /* MELHORIA: Variáveis de Layout para manter padronização (DRY) */
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition-speed: 0.2s;
 }
 
 /* ==========================================
-   2. RESET GLOBAL (Remove estilos padrão)
-   ========================================== 
-   
-   * = seletor universal (TODOS os elementos)
-   Remove margin (espaço externo) e padding (espaço interno)
-   box-sizing: border-box; = border NÃO adiciona tamanho extras
-*/
+   2. RESET GLOBAL
+   ========================================== */
 * { 
     margin: 0; 
     padding: 0; 
@@ -66,377 +50,237 @@
 }
 
 /* ==========================================
-   3. ESTILOS DO <body> (Página inteira)
+   3. ESTILOS BASE E CABEÇALHO
    ========================================== */
 body {
-    /* Font-family: qual FONTE usar (ordem de prioridade) */
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    
-    /* Tenta usar 'Inter' (moderna)
-       Se não tiver: usa 'Segoe UI' (Windows)
-       Se não tiver: usa qualquer sans-serif */
-    
-    /* Cor de fundo: cinza suavíssimo */
+    /* Fontes do sistema operacional garantem melhor performance que carregar fontes externas, se possível */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-body);
-    
-    /* Cor do texto padrão: cinza muito escuro */
     color: var(--text-strong);
+    /* MELHORIA: Suaviza o render da fonte no macOS/iOS */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================
-   4. CABEÇALHO <header>
-   ========================================== 
-   
-   O cabeçalho é a barra superior com o título
-   Deve ser chamativo e profissional
-*/
 header {
-    /* Fundo escuro (cinza quase preto) */
     background-color: var(--text-strong);
-    
-    /* Texto em branco para contraste */
     color: white;
-    
-    /* Espaçamento interno vertical: 24px em cima e embaixo */
     padding: 24px 0;
-    
-    /* Centraliza o texto horizontalmente */
     text-align: center;
-    
-    /* Sombra suave por baixo do cabeçalho */
-    /* 0 4px = sem deslocamento horizontal, 4px para baixo
-       6px = desfoque
-       -1px = spread (tamanho da sombra)
-       rgba(0,0,0,0.1) = cor preta com 10% de opacidade */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* ==========================================
-   5. <section> E TÍTULOS
-   ========================================== */
-
-/* Todos os <section> ter espaçamento consistente */
 section { 
-    /* Largura máxima: 1000px (em telas maiores, para não ficar muito largo) */
     max-width: 1000px;
-    
-    /* Centraliza a seção horizontalmente */
     margin: 30px auto;
-    
-    /* Espaço lateral (em telas pequenas, 20px de cada lado) */
     padding: 0 20px;
 }
 
-/* Títulos <h2> dentro das sections */
 h2 { 
-    color: var(--text-strong); /* Cinza escuro */
-    margin-bottom: 20px; /* Espaço embaixo do título */
-    font-size: 1.5rem; /* Tamanho (1.5x a fonte padrão) */
+    color: var(--text-strong);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
 /* ==========================================
-   6. CARDS DO DASHBOARD
-   ========================================== 
-   
-   Cards são "caixas" que mostram informações
-   - Total em Estoque (azul)
-   - Entradas de Hoje (verde)
-   - Saídas de Hoje (vermelho)
-*/
+   4. CARDS DO DASHBOARD E CONTAINERS
+   ========================================== */
 
-/* Estilos para: Cards, Formulário e Seção de Inventário */
+/* Estilos comuns para as caixas brancas */
 .card, form, #inventario {
-    /* Fundo branco */
     background-color: var(--bg-card);
-    
-    /* Espaçamento interno: 24px em todas as direções */
     padding: 24px;
-    
-    /* Cantos arredondados (suavização visual) */
-    border-radius: 12px;
-    
-    /* Sombra elegante (efeito de "flutuação") */
-    /* 0 10px = sombra 10px para baixo
-       15px = desfoque grande (suave)
-       -3px = spread negativo (mais compacta)
-       rgba(0,0,0,0.05) = cor preta com apenas 5% de opacidade (bem suave) */
+    border-radius: var(--radius-lg); /* Usando a nova variável */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    
-    /* Borda super fina (1px) em cinza claro */
     border: 1px solid var(--border-soft);
 }
 
-/* ===== RESUMO (Dashboard com 3 cards) ===== */
-
-/* Container do dashboard: cards lado a lado */
+/* Container do dashboard */
 #resumo { 
-    /* flexbox: layout flexível */
     display: flex; 
-    /* Espaço entre os cards: 20px */
     gap: 20px; 
 }
 
-/* Cada card individual */
+/* MELHORIA: A borda inferior agora é dinâmica via classes do HTML */
 .card { 
-    /* Cada card toma 1/3 do espaço (flex: 1) */
     flex: 1; 
-    
-    /* Centraliza texto horizontalmente */
     text-align: center; 
-    
-    /* Borda colorida na base do card (4px de altura) */
-    /* A cor varia: azul para Total, verde para Entradas, vermelho para Saídas */
-    border-bottom: 4px solid var(--primary); 
+    border-bottom: 4px solid transparent; /* Fallback */
 }
 
-/* Título do card (ex: "Total em Estoque") */
+/* Classes injetadas no HTML Refatorado */
+.card-primary { border-bottom-color: var(--primary); }
+.card-success { border-bottom-color: var(--success); }
+.card-danger { border-bottom-color: var(--danger); }
+
 .card h3 { 
-    /* Texto cinzento (secundário) */
     color: var(--text-soft); 
-    
-    /* Tamanho pequeno */
     font-size: 0.875rem; 
-    
-    /* MAIÚSCULAS: "TOTAL EM ESTOQUE" */
     text-transform: uppercase; 
-    
-    /* Espaçamento entre letras (kerning) */
     letter-spacing: 0.05em; 
-    
-    /* Espaço embaixo do título */
     margin-bottom: 8px;
 }
 
-/* Número grande do card (ex: "150 itens") */
 .card p { 
-    /* Tamanho GRANDE: 2.5x a fonte padrão */
     font-size: 2.5rem; 
-    
-    /* Negrito: números destacados */
     font-weight: 700; 
-    
-    /* Cor: cinza escuro */
     color: var(--text-strong); 
 }
 
 /* ==========================================
-   7. FORMULÁRIO DE ENTRADA/SAÍDA
+   5. FORMULÁRIOS & INPUTS
    ========================================== */
-
-/* Container do formulário */
 #movimentacao form { 
-    /* Flexbox com itens em coluna (um abaixo do outro) */
     display: flex; 
     flex-direction: column; 
-    
-    /* Espaço entre campos: 15px */
     gap: 15px; 
 }
 
-/* Labels (descrição dos campos) */
 label { 
-    /* Tamanho pequeno */
     font-size: 0.875rem; 
-    
-    /* Negrito: destaca a label */
     font-weight: 600; 
-    
-    /* Cor: cinza escuro */
     color: var(--text-strong); 
 }
 
-/* ==========================================
-   8. INPUTS E SELECTS (Campos de texto)
-   ========================================== */
-
-/* Todos os <input> e <select> */
 input, select {
-    /* Espaçamento interno: 12px em cima/baixo, 16px esquerda/direita */
     padding: 12px 16px;
-    
-    /* Borda fina em cinza claro */
     border: 1px solid var(--border-soft);
-    
-    /* Cantos arredondados */
-    border-radius: 8px;
-    
-    /* Fundo com cor de fundo da página (sutileza) */
+    border-radius: var(--radius-md);
     background-color: var(--bg-body);
-    
-    /* Texto em cinza escuro */
     color: var(--text-strong);
-    
-    /* Tamanho da fonte: normal (1rem) */
     font-size: 1rem;
-    
-    /* Transição suave quando interagir (0.2s) */
-    transition: all 0.2s;
+    transition: all var(--transition-speed) ease;
 }
 
-/* Quando clica NO input ou select (estado :focus) */
 input:focus, select:focus {
-    /* Borda muda para azul (primary) */
     border-color: var(--primary);
-    
-    /* Efeito de anel em volta do input */
-    /* Box-shadow cria um "halo" de cor ao redor */
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); /* Azul transparente */
-    
-    /* Remove o outline padrão do navegador */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
     outline: none;
 }
 
 /* ==========================================
-   9. BOTÕES
+   6. BOTÕES
    ========================================== */
-
-/* Todos os <button> */
 button {
-    /* Espaçamento interno: 14px */
     padding: 14px;
-    
-    /* Fundo: azul (cor principal) */
     background-color: var(--primary);
-    
-    /* Texto: branco */
     color: white;
-    
-    /* Sem borda */
     border: none;
-    
-    /* Cantos arredondados */
-    border-radius: 8px;
-    
-    /* Tamanho do texto: normal */
+    border-radius: var(--radius-md);
     font-size: 1rem;
-    
-    /* Negrito: destaca o botão */
     font-weight: 600;
-    
-    /* Cursor muda para "mão" ao passar por cima */
     cursor: pointer;
-    
-    /* Transições suaves para efeitos hover/active */
-    transition: transform 0.1s, background-color 0.2s;
+    /* Adicionando box-shadow para o efeito de "click" ficar mais realista */
+    transition: transform 0.1s, background-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-/* Quando passa o mouse SOBRE o botão */
 button:hover { 
-    /* Fundo fica um azul mais escuro */
     background-color: #4338ca; 
 }
 
-/* Quando CLICA no botão (active) */
 button:active { 
-    /* Botão encolhe 2% (efeito de pressão) */
     transform: scale(0.98); 
 }
 
-/* Botão de Exportar CSV tem cor diferente (verde) */
+/* MELHORIA: Acessibilidade visual para navegação por teclado (Tab) */
+button:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
 #btnExportar { 
-    /* Verde em vez de azul */
     background-color: var(--success); 
 }
 
-/* Hover do botão exportar (verde mais escuro) */
 #btnExportar:hover { 
     background-color: #059669; 
 }
 
-/* ==========================================
-   10. TABELA
-   ========================================== 
-   
-   Estrutura:
-   - <table>: container
-   - <thead>: cabeçalho
-   - <tbody>: dados
-   - <tr>: linha
-   - <th>: header cell
-   - <td>: data cell
-*/
-
-/* Tabela toda */
-table { 
-    /* Ocupa 100% da largura disponível */
-    width: 100%; 
-    
-    /* Sem espaço entre células (bordas coladas) */
-    border-collapse: collapse; 
-    
-    /* Espaço acima da tabela */
-    margin-top: 10px; 
+/* MELHORIA: Classe do HTML para a área de busca e exportação */
+.acoes-inventario {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
 }
 
-/* Todas as células de cabeçalho e dados */
+.acoes-inventario #busca {
+    flex: 1; /* Ocupa todo o espaço restante */
+}
+
+/* ==========================================
+   7. TABELA
+   ========================================== */
+
+/* MELHORIA: Permite que a tabela gere um scroll horizontal em telas pequenas */
+#inventario {
+    overflow-x: auto;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px;
+    /* Garante um tamanho mínimo para não espremer os dados em telas mobile */
+    min-width: 600px; 
+}
+
 th, td { 
-    /* Espaçamento interno: 16px */
     padding: 16px; 
-    
-    /* Alinha o texto à esquerda */
     text-align: left; 
-    
-    /* Linha fina embaixo de cada célula */
     border-bottom: 1px solid var(--border-soft); 
 }
 
-/* Cabeçalhos da tabela (<th>) */
 th { 
-    /* Fundo: cinza super claro (mesmo do body) */
     background-color: var(--bg-body); 
-    
-    /* Texto: cinza médio */
     color: var(--text-soft); 
-    
-    /* Negrito */
     font-weight: 600; 
-    
-    /* MAIÚSCULAS: "CÓDIGO", "DESCRIÇÃO", "SALDO" */
     text-transform: uppercase; 
-    
-    /* Tamanho pequeno */
     font-size: 0.75rem; 
-    
-    /* Espaçamento entre letras */
     letter-spacing: 0.05em;
 }
 
-/* Efeito quando passa mouse SOBRE uma linha da tabela */
 tbody tr:hover { 
-    /* Fundo fica um pouco mais claro (destaque) */
-    background-color: #f8fafc; 
+    background-color: #f1f5f9; /* Ajustado sutilmente para maior contraste no hover */
 }
 
 /* ==========================================
-   11. CAMPO DE BUSCA (Search Input)
-   ========================================== 
-   
-   O campo de busca tem um ícone de lupa integrado
-   Usamos SVG em data URI (codificado em base64/URL)
-*/
+   8. CAMPO DE BUSCA
+   ========================================== */
 #busca {
-    /* 
-      SVG é uma imagem de lupa em formato de URL
-      "data:image/svg+xml" = é uma imagem SVG embutida
-      Cor da lupa: %2364748b = #64748b (cinza médio, variável --text-soft)
-    */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
-    
-    /* Imagem não se repete */
     background-repeat: no-repeat;
-    
-    /* Posição: 14px da esquerda, centralizado verticalmente */
     background-position: 14px center;
-    
-    /* 
-      Padding-left grande = empurra o texto para a direita
-      Assim o texto não fica por cima da lupa
-      42px é espaço suficiente para a lupa (18px) + margem
-    */
     padding-left: 42px;
 }
 
 #busca:focus {
-    /* Muda a cor da lupa para o tom principal (azul) quando selecionado */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+}
+
+/* ==========================================
+   9. RESPONSIVIDADE (Mobile) - MELHORIA
+   ========================================== */
+
+/* Quando a tela for menor que 768px (Tablets e Celulares) */
+@media (max-width: 768px) {
+    /* Empilha os cards do resumo */
+    #resumo {
+        flex-direction: column;
+    }
+
+    /* Empilha o campo de busca e o botão de exportar */
+    .acoes-inventario {
+        flex-direction: column;
+        align-items: stretch; /* Estica os botões para ocupar a largura toda */
+    }
+
+    /* Botão exportar ocupa 100% da largura no mobile */
+    #btnExportar {
+        width: 100%;
+    }
+
+    /* Diminui os paddings gerais das sections para ganhar espaço */
+    .card, form, #inventario {
+        padding: 16px;
+    }
 }
